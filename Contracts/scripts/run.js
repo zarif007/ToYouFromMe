@@ -9,19 +9,21 @@ const main = async () => {
 
     let payloadCount;
     payloadCount = await payloadContract.getTotalPayloads();
+    console.log(payloadCount.toNumber());
 
     // From me to myself
-    let payloadTxn = await payloadContract.payload();
+    let payloadTxn = await payloadContract.payload("erer", "ewrwrw");
 
     await payloadTxn.wait();
 
     payloadCount = await payloadContract.getTotalPayloads();
 
     // From a random person 
-    payloadTxn = await payloadContract.connect(randomPerson).payload();
+    payloadTxn = await payloadContract.connect(randomPerson).payload("uyuyu", "ytyty");
     await payloadTxn.wait();
 
-    payloadCount = await payloadContract.getTotalPayloads();
+    let allPayload = await payloadContract.getAllPayloads();
+    console.log(allPayload);
   };
   
   const runMain = async () => {
