@@ -12,14 +12,14 @@ const main = async () => {
     console.log(payloadCount.toNumber());
 
     // From me to myself
-    let payloadTxn = await payloadContract.payload("erer", "ewrwrw");
+    let payloadTxn = await payloadContract.payload("dsadsa", "erer", "ewrwrw");
 
     await payloadTxn.wait();
 
     payloadCount = await payloadContract.getTotalPayloads();
 
     // From a random person 
-    payloadTxn = await payloadContract.connect(randomPerson).payload("uyuyu", "ytyty");
+    payloadTxn = await payloadContract.connect(randomPerson).payload("dsadsa", "uyuyu", "ytyty");
     await payloadTxn.wait();
 
     let allPayload = await payloadContract.getAllPayloads();

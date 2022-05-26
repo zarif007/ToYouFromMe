@@ -7,10 +7,11 @@ import "hardhat/console.sol";
 contract PayloadPortal {
     uint256 totalPayloads;
 
-    event NewPayload(address indexed from, string text, string url, uint256 timestamp);
+    event NewPayload(address indexed from, address indexed to, string text, string url, uint256 timestamp);
 
     struct Payload {
         address sender; 
+        address reciever;
         string text;
         string url; 
         uint256 timestamp; 
@@ -27,12 +28,12 @@ contract PayloadPortal {
         console.log("Yo yo, I am a contract and I am smart");
     }
 
-    function payload(string memory _text, string memory _url) public {
+    function payload(address _to, string memory _text, string memory _url) public {
         totalPayloads += 1;
 
-        payloads.push(Payload(msg.sender, _text, _url, block.timestamp));
+        payloads.push(Payload(msg.sender, _to, _text, _url, block.timestamp));
 
-        emit NewPayload(msg.sender, _text, _url, block.timestamp);
+        emit NewPayload(msg.sender, _to, _text, _url, block.timestamp);
     }
 
     function getAllPayloads() public view returns (Payload[] memory) {

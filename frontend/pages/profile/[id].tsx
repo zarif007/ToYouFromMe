@@ -13,11 +13,35 @@ const Profile = () => {
 
   const [currentAccount, setCurrentAccount] = useRecoilState<string>(currentUser);
 
-
-  const contractAddress = "0x64FE5a971EDB3497EC2610B1A3fEbA72bb1DCcC7";
+  const contractAddress = "0xD3E56888702C07D46BFa44570F00F7B373491573";
 
   const contractABI = abi.abi;
 
+
+  const checkIfWalletIsConnected = async () => {
+    try {
+      const { ethereum } = window;
+
+      if (!ethereum) {
+        console.log("Make sure you have metamask!");
+        return;
+      } else {
+        console.log("We have the ethereum object", ethereum);
+      }
+
+      const accounts = await ethereum.request({ method: "eth_accounts" });
+
+      if (accounts.length !== 0) {
+        const account = accounts[0];
+        console.log("Found an authorized account:", account);
+        setCurrentAccount(account);
+      } else {
+        console.log("No authorized account found")
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  }
 
   const sendPayload = async () => {
     try {
@@ -34,7 +58,8 @@ const Profile = () => {
         /*
         * Execute the actual payload from your smart contract
         */
-        const payloadTxn = await payloadPortalContract.payload("kire", "dsdsadsa");
+       console.log(currentAccount)
+        const payloadTxn = await payloadPortalContract.payload(currentAccount, "kire", "dsdsadsa");
         console.log("Mining...", payloadTxn.hash);
 
         await payloadTxn.wait();
@@ -42,6 +67,8 @@ const Profile = () => {
 
         count = await payloadPortalContract.getTotalPayloads();
         console.log("Retrieved total payload count...", count.toNumber());
+
+        getAllPayloads()
       } else {
         console.log("Ethereum object doesn't exist!");
       }
@@ -64,10 +91,11 @@ const Profile = () => {
         let payloadsCleaned: any = [];
         payloads.forEach((payload: any) => {
           payloadsCleaned.push({
-            address: payload.sender,
+            sender: payload.sender,
+            to: payload.reciever,
             timestamp: new Date(payload.timestamp * 1000),
             text: payload.text,
-            ulr: payload.url,
+            url: payload.url,
           });
         });
 
@@ -86,6 +114,7 @@ const Profile = () => {
   }
 
   useEffect(() => {
+    checkIfWalletIsConnected();
     getAllPayloads();
   }, [])
 
@@ -107,6 +136,9 @@ const Profile = () => {
                 </h1>
               )
           })
+      }
+      {
+        (currentAccount !== undefined || '') && <button onClick={sendPayload} >send</button>
       }
     </div>
   )
