@@ -105,7 +105,7 @@ const FrontPage: NextPage = () => {
             ) : (
               <Link href={`profile/${currentAccount}`}>
                 <button className="px-12 py-4 bg-[#ADD8E6] hover:bg-[#79bad0] transition duration-100 ease-in-out shadow hover:shadow-lg transform hover:scale-110 text-gray-700 font-semibold text-lg rounded-md inline-block">
-                    Profile
+                    Profile {currentAccount.slice(0, 3)}...{currentAccount.slice(39, 42)}
                 </button>
               </Link>
             )}

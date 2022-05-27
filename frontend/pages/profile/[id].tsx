@@ -6,6 +6,8 @@ import abi from '../../utils/PayloadPortal.json'
 import { currentUser } from './../../atoms/currentUserAtom';
 import { LinkPreview } from '@dhaiwat10/react-link-preview';
 import Head from 'next/head';
+import Moment from 'react-moment';
+import Message from '../../components/Message';
 
 
 const Profile = () => {
@@ -15,6 +17,10 @@ const Profile = () => {
   const [allPayloads, setAllPayloads] = useState([]);
 
   const [currentAccount, setCurrentAccount] = useRecoilState<string>(currentUser);
+
+  const [buttonState, setButtonState] = useState<String>('Send');
+
+  const router = useRouter();
 
   const [inputs, setInputs] = useState<{text: string, url: string}>({text: '', url: ''})
 
@@ -65,13 +71,17 @@ const Profile = () => {
         */
        console.log(currentAccount)
         const payloadTxn = await payloadPortalContract.payload(currentAccount, inputs.text, inputs.url);
+        setButtonState('Mining...')
         console.log("Mining...", payloadTxn.hash);
 
         await payloadTxn.wait();
+        setButtonState('Mined')
         console.log("Mined -- ", payloadTxn.hash);
 
         count = await payloadPortalContract.getTotalPayloads();
         console.log("Retrieved total payload count...", count.toNumber());
+
+        setButtonState('Send')
 
         setInputs({text: '', url: ''})
 
@@ -97,21 +107,21 @@ const Profile = () => {
 
         let payloadsCleaned: any = [];
         payloads.forEach((payload: any) => {
-          payloadsCleaned.push({
-            sender: payload.sender,
-            to: payload.reciever,
-            timestamp: new Date(payload.timestamp * 1000),
-            text: payload.text,
-            url: payload.url,
-          });
+          if(payload.reciever.toUpperCase() === id?.toString().toUpperCase()){
+            payloadsCleaned.push({
+              sender: payload.sender,
+              to: payload.reciever,
+              timestamp: new Date(payload.timestamp * 1000),
+              text: payload.text,
+              url: payload.url,
+            });
+          }
         });
 
         /*
          * Store our data in React State
          */
         setAllPayloads(payloadsCleaned);
-
-        console.log(payloadsCleaned);
       } else {
         console.log("Ethereum object doesn't exist!")
       }
@@ -122,8 +132,11 @@ const Profile = () => {
 
   useEffect(() => {
     checkIfWalletIsConnected();
-    getAllPayloads();
   }, [])
+
+  useEffect(() => {
+    getAllPayloads();
+  }, [id])
 
   return (
     <>
@@ -142,7 +155,7 @@ const Profile = () => {
                     id === currentAccount ? 'Your Profile 😀' : 'Sending to ⤵️'
                 }
             </h1>
-            <h1 className='md:text-3xl text-sm bg-gray-700 py-2 px-2 rounded-md'>{id}</h1>
+            <h1 className='md:text-3xl text-sm bg-gray-700 py-2 px-2 rounded-md mt-2'>{id}</h1>
         </div>
 
         {/* Inputs  */}
@@ -166,24 +179,24 @@ const Profile = () => {
         <div className='mx-auto flex justify-center mt-2'>
           <button
             type="button"
-            className="m-2 rounded px-8 py-2 font-semibold text-gray-700 bg-[#ADD8E6] hover:bg-[#79bad0] text-lg"
+            className="m-2 rounded px-8 py-2 font-semibold text-gray-700 bg-[#ADD8E6] hover:bg-[#79bad0] text-lg disabled:bg-[#d5e9f0] disabled:cursor-not-allowed"
             onClick={sendPayload}
+            disabled={buttonState !== 'Send'}
           >
-            Send
+            {buttonState}
           </button>
         </div>
-        {/* <LinkPreview url='https://giphy.com/stories/8-gifs-from-the-2022-uefa-womens-champions-league-final-740cffd3-2338' width='400px' backgroundColor='black' borderColor='#0f172a' primaryTextColor='#94a3b8' /> */}
+        <LinkPreview url='https://giphy.com/stories/8-gifs-from-the-2022-uefa-womens-champions-league-final-740cffd3-2338' width='400px' backgroundColor='black' borderColor='#0f172a' primaryTextColor='#94a3b8' />
         
-        {
-            allPayloads.map((p: any, index) => {
-                return (
-                  <h1 key={index} className='md:text-3xl text-xl font-bold text-[#ADD8E6] uppercase flex flex-col justify-center items-center'>
-                      {p.text}
-                  </h1>
-                )
-            })
-        }
 
+        <div className='md:text-3xl text-xl font-bold text-[#ADD8E6] uppercase flex flex-col justify-center items-center mt-12'>For You 😉</div>
+        <div className='max-w-3xl md:mx-auto ml-3 mr-3 mt-2 flex justify-center flex-col'>
+          {
+              allPayloads.map((p: any, index) => {
+                  return <Message props={p} key={index} />
+              })
+          }
+        </div>
       </div>
     </>
   )
