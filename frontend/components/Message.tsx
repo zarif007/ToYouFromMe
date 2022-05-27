@@ -9,7 +9,8 @@ const Message = ({ props }: any) => {
 
   return (
     <>
-      <div className="flex justify-between items-center px-1 py-3 bg-[#ADD8E6] text-gray-700 mt-1 rounded-lg text-md font-semibold">
+      <div className="flex justify-between items-center px-1 py-3 bg-[#ADD8E6] text-gray-700 mt-1 rounded-lg text-md font-semibold cursor-pointer"
+        onClick={() => setShowMore(!showMore)}>
         <div className="pl-1">
           {sender.slice(0, 6)}...{sender.slice(38, 42)}
         </div>

@@ -186,17 +186,20 @@ const Profile = () => {
             {buttonState}
           </button>
         </div>
-        <LinkPreview url='https://giphy.com/stories/8-gifs-from-the-2022-uefa-womens-champions-league-final-740cffd3-2338' width='400px' backgroundColor='black' borderColor='#0f172a' primaryTextColor='#94a3b8' />
-        
 
-        <div className='md:text-3xl text-xl font-bold text-[#ADD8E6] uppercase flex flex-col justify-center items-center mt-12'>For You 😉</div>
-        <div className='max-w-3xl md:mx-auto ml-3 mr-3 mt-2 flex justify-center flex-col'>
-          {
-              allPayloads.map((p: any, index) => {
-                  return <Message props={p} key={index} />
-              })
-          }
-        </div>
+        {
+          id === currentAccount &&
+          <>
+            <div className='md:text-3xl text-xl font-bold text-[#ADD8E6] uppercase flex flex-col justify-center items-center mt-12'>For You 😉</div>
+            <div className='max-w-3xl md:mx-auto ml-3 mr-3 mt-2 flex justify-center flex-col'>
+              {
+                  allPayloads.map((p: any, index) => {
+                      return <Message props={p} key={index} />
+                  })
+              }
+            </div>
+          </>
+        }
       </div>
     </>
   )
