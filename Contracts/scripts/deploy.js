@@ -6,7 +6,9 @@ const main = async () => {
     console.log("Account balance: ", accountBalance.toString());
   
     const payloadContractFactory = await hre.ethers.getContractFactory("PayloadPortal");
-    const payloadContract = await payloadContractFactory.deploy();
+    const payloadContract = await payloadContractFactory.deploy({
+      value: hre.ethers.utils.parseEther("0.001"),
+    });
     await payloadContract.deployed();
   
     console.log("payloadPortal address: ", payloadContract.address);

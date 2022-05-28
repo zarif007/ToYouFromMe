@@ -24,7 +24,7 @@ const Profile = () => {
 
   const [inputs, setInputs] = useState<{text: string, url: string}>({text: '', url: ''})
 
-  const contractAddress = "0xD3E56888702C07D46BFa44570F00F7B373491573";
+  const contractAddress = "0x5AA8Fe86FD05Bcd296E9A77931e8ef673133A8Da";
 
   const contractABI = abi.abi;
 
@@ -144,7 +144,7 @@ const Profile = () => {
       <Head>
         <title>{id}</title>
         <meta name="description" content={`${id}`} />
-        <link rel="icon" href="https://i.ibb.co/Fb3TqKH/to-you-removebg-preview.png" />
+        <link rel="icon" href="/logo.ico" />
       </Head>
 
       <div className='bg-black min-h-screen text-white md:py-48 py-12'>

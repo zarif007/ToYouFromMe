@@ -1,10 +1,11 @@
 import React, { useEffect, useRef, useState } from 'react'
-import abi from '../utils/PayloadPortal.json'
 import { useRecoilState } from 'recoil';
 import { currentUser } from '../atoms/currentUserAtom';
 import Link from 'next/link';
 import { NextPage } from 'next';
 import TextTransition, { presets } from "react-text-transition";
+import logo from '../images/logo.png'
+import Image from 'next/image';
 
 
 const TEXTS = [
@@ -110,11 +111,14 @@ const FrontPage: NextPage = () => {
               </Link>
             )}
           </div>
-          <img
-            className="mx-auto xl:max-w-screen-lg mb-8 w-80"
-            src="https://i.ibb.co/Fb3TqKH/to-you-removebg-preview.png"
+          {/* <img
+            className=""
+            src={`${logo}`}
             alt="Logo"
-          />
+          /> */}
+          <div className='mx-auto xl:max-w-screen-lg mb-8 w-80'>
+            <Image src={logo} objectFit='contain' />
+          </div>
         </div>
 
         <div

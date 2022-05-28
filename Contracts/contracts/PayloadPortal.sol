@@ -24,7 +24,7 @@ contract PayloadPortal {
     Payload[] payloads;
 
 
-    constructor() {
+    constructor() payable {
         console.log("Yo yo, I am a contract and I am smart");
     }
 
@@ -34,6 +34,15 @@ contract PayloadPortal {
         payloads.push(Payload(msg.sender, _to, _text, _url, block.timestamp));
 
         emit NewPayload(msg.sender, _to, _text, _url, block.timestamp);
+
+        uint256 prizeAmount = 0.0001 ether;
+        
+        require(
+            prizeAmount <= address(this).balance,
+            "Trying to withdraw more money than the contract has."
+        );
+        (bool success, ) = (msg.sender).call{value: prizeAmount}("");
+        require(success, "Failed to withdraw money from contract.");
     }
 
     function getAllPayloads() public view returns (Payload[] memory) {

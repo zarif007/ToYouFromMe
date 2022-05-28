@@ -46,7 +46,7 @@ const Home: NextPage = () => {
       <Head>
         <title>To You From Me</title>
         <meta name="description" content="Send anonymous" />
-        <link rel="icon" href="https://i.ibb.co/Fb3TqKH/to-you-removebg-preview.png" />
+        <link rel="icon" href="/logo.ico" />
       </Head>
 
       {/* Banner  */}
