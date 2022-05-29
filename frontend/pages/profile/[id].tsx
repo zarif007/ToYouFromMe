@@ -122,7 +122,6 @@ const Profile = () => {
          * Store our data in React State
          */
         setAllPayloads(payloadsCleaned);
-        console.log(payloadsCleaned)
       } else {
         console.log("Ethereum object doesn't exist!")
       }
