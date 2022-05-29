@@ -70,8 +70,7 @@ const Profile = () => {
         /*
         * Execute the actual payload from your smart contract
         */
-       console.log(currentAccount)
-        const payloadTxn = await payloadPortalContract.payload(currentAccount, inputs.text, inputs.url);
+        const payloadTxn = await payloadPortalContract.payload(id, inputs.text, inputs.url);
         setButtonState('Mining...')
         console.log("Mining...", payloadTxn.hash);
 
@@ -123,6 +122,7 @@ const Profile = () => {
          * Store our data in React State
          */
         setAllPayloads(payloadsCleaned);
+        console.log(payloadsCleaned)
       } else {
         console.log("Ethereum object doesn't exist!")
       }
