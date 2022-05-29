@@ -70,7 +70,7 @@ const Profile = () => {
         /*
         * Execute the actual payload from your smart contract
         */
-        const payloadTxn = await payloadPortalContract.payload(id, inputs.text, inputs.url);
+        const payloadTxn = await payloadPortalContract.payload(id, inputs.text, inputs.url, { gasLimit: 300000 });
         setButtonState('Mining...')
         console.log("Mining...", payloadTxn.hash);
 
