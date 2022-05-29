@@ -1,8 +1,9 @@
 import { LinkPreview } from '@dhaiwat10/react-link-preview';
 import React, { useState } from 'react'
 import Moment from 'react-moment'
+import payloadInterface from '../Interfaces/payload';
 
-const Message = ({ props }: any) => {
+const Message: React.FC<{ props: payloadInterface }> = ({ props }) => {
 
   const {timestamp, sender, text, url} = props;
   const [showMore, setShowMore] = useState<boolean>(false);

@@ -8,13 +8,14 @@ import { LinkPreview } from '@dhaiwat10/react-link-preview';
 import Head from 'next/head';
 import Moment from 'react-moment';
 import Message from '../../components/Message';
+import payloadInterface from '../../Interfaces/payload';
 
 
 const Profile = () => {
 
   const { query: { id } } = useRouter();
 
-  const [allPayloads, setAllPayloads] = useState([]);
+  const [allPayloads, setAllPayloads] = useState<payloadInterface[]>([]);
 
   const [currentAccount, setCurrentAccount] = useRecoilState<string>(currentUser);
 
@@ -105,7 +106,7 @@ const Profile = () => {
 
         const payloads = await payloadPortalContract.getAllPayloads();
 
-        let payloadsCleaned: any = [];
+        let payloadsCleaned: payloadInterface[] = [];
         payloads.forEach((payload: any) => {
           if(payload.reciever.toUpperCase() === id?.toString().toUpperCase()){
             payloadsCleaned.push({
@@ -193,7 +194,7 @@ const Profile = () => {
             <div className='md:text-3xl text-xl font-bold text-[#ADD8E6] uppercase flex flex-col justify-center items-center mt-12'>For You 😉</div>
             <div className='max-w-3xl md:mx-auto ml-3 mr-3 mt-2 flex justify-center flex-col'>
               {
-                  allPayloads.map((p: any, index) => {
+                  allPayloads.map((p: payloadInterface, index) => {
                       return <Message props={p} key={index} />
                   })
               }

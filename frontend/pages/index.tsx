@@ -9,7 +9,7 @@ import FrontPage from '../components/FrontPage';
 
 const Home: NextPage = () => {
 
-  const [currentAccount, setCurrentAccount] = useRecoilState(currentUser);
+  const [currentAccount, setCurrentAccount] = useRecoilState<string>(currentUser);
 
   const checkIfWalletIsConnected = async () => {
     try {

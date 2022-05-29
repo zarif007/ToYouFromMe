@@ -17,7 +17,7 @@ const TEXTS = [
 
 const FrontPage: NextPage = () => {
 
-  const [currentAccount, setCurrentAccount] = useRecoilState(currentUser);
+  const [currentAccount, setCurrentAccount] = useRecoilState<string>(currentUser);
 
   const [index, setIndex] = useState<number>(0);
 
@@ -75,10 +75,11 @@ const FrontPage: NextPage = () => {
 
     const intervalId = setInterval(() =>
       setIndex(index => index + 1),
-      2000 // every 3 seconds
+      2000
     );
     return () => clearTimeout(intervalId);
   }, [])
+  
   return (
     <section className="py-12 lg:py-20">
         <div className="container mx-auto px-5 text-center">
